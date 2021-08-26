@@ -2,7 +2,7 @@ import os
 
 class Config:
     SECRET_KEY = 'this is secret'
-    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://moringa:Access@localhost/pitches'
+    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://moringa:Access@localhost/pitchcollections'
 
 class ProdConfig(Config):
     pass
