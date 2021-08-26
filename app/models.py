@@ -3,6 +3,7 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
@@ -14,6 +15,7 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
+    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
         
     @property
     def password(self):
@@ -52,3 +54,19 @@ class Role(db.Model):
 
 class Comments(db.Model):
     __tablename__ = 'comments'
+
+    id = db.Column(db.Integer,primary_key = True)
+    pitch_id = db.Column(db.Integer)
+    pitch_title = db.Column(db.String)
+    pitch_review = db.Column(db.String)
+    posted = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls,id):
+        comments = Comments.query.filter_by(pitch_id=id).all()
+        return comments
