@@ -52,7 +52,7 @@ class Role(db.Model):
         return f'User {self.name}'
 
 
-class Comments(db.Model):
+class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer,primary_key = True)
@@ -68,5 +68,5 @@ class Comments(db.Model):
 
     @classmethod
     def get_comments(cls,id):
-        comments = Comments.query.filter_by(pitch_id=id).all()
+        comments = Comment.query.filter_by(pitch_id=id).all()
         return comments
